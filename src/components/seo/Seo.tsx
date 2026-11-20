@@ -7,9 +7,11 @@ type Props = {
 }
 
 const origin = typeof window !== 'undefined' ? window.location.origin : 'https://visionpluslibrary.in'
+const baseUrl = new URL(import.meta.env.BASE_URL, origin)
 
 export function Seo({ title, description, path = '/' }: Props) {
-  const url = `${origin}${path}`
+  const url = new URL(path.replace(/^\//, ''), baseUrl).href
+  const imageUrl = new URL('og-cover.jpg', baseUrl).href
   return (
     <Helmet>
       <title>{title}</title>
@@ -20,12 +22,12 @@ export function Seo({ title, description, path = '/' }: Props) {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
-      <meta property="og:image" content={`${origin}/og-cover.jpg`} />
+      <meta property="og:image" content={imageUrl} />
       <meta property="og:locale" content="en_IN" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={`${origin}/og-cover.jpg`} />
+      <meta name="twitter:image" content={imageUrl} />
     </Helmet>
   )
 }

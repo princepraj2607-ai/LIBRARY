@@ -21,6 +21,12 @@ npm start
 
 The API serves the built frontend from `dist` when that folder exists.
 
+## GitHub Pages
+
+The public frontend is deployed from the `main` branch by the GitHub Actions workflow in `.github/workflows/deploy.yml`. The Vite build uses `/LIBRARY/` as its base path and publishes a `404.html` fallback so client-side routes can load when opened directly.
+
+GitHub Pages hosts only the static frontend. The Express API, admin dashboard data and authentication, bookings, enquiry submissions, and uploaded images require a separately hosted backend with persistent storage. Those API features are not available from GitHub Pages alone; configure and host the API before relying on them.
+
 ## What the administrator must configure
 
 The public site ships with verified business details only. These stay empty until the library owner publishes them:

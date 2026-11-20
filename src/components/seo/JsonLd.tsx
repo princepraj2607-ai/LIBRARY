@@ -6,6 +6,7 @@ export function JsonLd() {
   const { site } = useSite()
   if (!site) return null
   const { content, hours } = site
+  const baseUrl = new URL(import.meta.env.BASE_URL, window.location.origin)
   const publishedHours = hours.filter((day) => day.open && day.close && !day.closed)
   const data = {
     '@context': 'https://schema.org',
@@ -21,8 +22,8 @@ export function JsonLd() {
       postalCode: content.postalCode,
       addressCountry: 'IN',
     },
-    url: typeof window !== 'undefined' ? window.location.origin : undefined,
-    image: content.heroImage,
+    url: baseUrl.href,
+    image: new URL(content.heroImage.replace(/^\//, ''), baseUrl).href,
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: content.googleRating,

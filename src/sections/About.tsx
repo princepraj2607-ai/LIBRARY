@@ -21,7 +21,7 @@ export function About() {
           className="overflow-hidden rounded-3xl"
         >
           <img
-            src={content?.aboutImage || '/about-study.jpg'}
+            src={content?.aboutImage || `${import.meta.env.BASE_URL}about-study.jpg`}
             alt="Brand atmosphere photograph representing a focused study desk"
             className="h-full w-full object-cover"
           />

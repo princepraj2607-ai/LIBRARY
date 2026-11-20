@@ -226,7 +226,23 @@ app.post('/api/public/bookings', async (req, res) => {
   }
 
   try {
-    const booking = await mutate((db) => {
+    const now = new Date().toISOString()
+    const created = {
+      id: randomUUID(),
+      name,
+      phone,
+      planId,
+      date,
+      timeSlotId,
+      seatIds,
+      notes,
+      status: 'Pending' as const,
+      adminNote: '',
+      createdAt: now,
+      updatedAt: now,
+    }
+
+    await mutate((db) => {
       const activeSeats = db.seats.filter((seat) => seat.kind === 'seat' && seat.active)
       if (activeSeats.length === 0) {
         throw new Error('Seat layout is not configured yet. Please enquire via WhatsApp or phone.')
@@ -262,28 +278,12 @@ app.post('/api/public/bookings', async (req, res) => {
         student.name = name
       }
 
-      const now = new Date().toISOString()
-      const created = {
-        id: randomUUID(),
-        name,
-        phone,
-        planId,
-        date,
-        timeSlotId,
-        seatIds,
-        notes,
-        status: 'Pending' as const,
-        adminNote: '',
-        createdAt: now,
-        updatedAt: now,
-      }
       db.bookings.unshift(created)
-      return created
     })
     res.status(201).json({
       ok: true,
-      bookingId: booking.id,
-      status: booking.status,
+      bookingId: created.id,
+      status: created.status,
       message: 'Booking request received. You will get confirmation after admin approval.',
     })
   } catch (error) {

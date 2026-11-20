@@ -10,7 +10,7 @@ export function Hero() {
   return (
     <section className="relative isolate min-h-[100svh] overflow-hidden grain">
       <img
-        src={content?.heroImage || '/hero-library.jpg'}
+        src={content?.heroImage || `${import.meta.env.BASE_URL}hero-library.jpg`}
         alt="Quiet study interior atmosphere used as brand imagery until library photographs are uploaded"
         className="absolute inset-0 h-full w-full object-cover"
       />
