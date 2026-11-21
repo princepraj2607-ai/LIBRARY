@@ -59,7 +59,32 @@ export function createSeed(): Database {
       note: '',
     })),
     facilities: [],
-    plans: [],
+    plans: [
+      {
+        id: 'monthly',
+        name: 'Monthly',
+        duration: '1 Month',
+        price: '₹999',
+        benefits: [],
+        published: true,
+      },
+      {
+        id: 'six-months',
+        name: '6 Months',
+        duration: '6 Months',
+        price: '₹5,499',
+        benefits: [],
+        published: true,
+      },
+      {
+        id: 'twelve-months',
+        name: '12 Months',
+        duration: '12 Months',
+        price: '₹11,499',
+        benefits: [],
+        published: true,
+      },
+    ],
     gallery: [],
     reviews: [
       {
@@ -109,6 +134,10 @@ export async function loadDb(): Promise<Database> {
   try {
     const raw = await readFile(dbPath, 'utf8')
     cache = JSON.parse(raw) as Database
+    if (cache.plans.length === 0) {
+      cache.plans = createSeed().plans
+      await writeFile(dbPath, JSON.stringify(cache, null, 2), 'utf8')
+    }
   } catch {
     cache = createSeed()
     await writeFile(dbPath, JSON.stringify(cache, null, 2), 'utf8')

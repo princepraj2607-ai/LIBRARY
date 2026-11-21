@@ -4,9 +4,15 @@ import { Section } from '../components/ui/Section'
 import { useSite } from '../context/SiteContext'
 import { membershipMessage, waLink } from '../lib/whatsapp'
 
+const defaultPlans = [
+  { id: 'monthly', name: 'Monthly', duration: '1 Month', price: '₹999', benefits: [] },
+  { id: 'six-months', name: '6 Months', duration: '6 Months', price: '₹5,499', benefits: [] },
+  { id: 'twelve-months', name: '12 Months', duration: '12 Months', price: '₹11,499', benefits: [] },
+]
+
 export function Membership() {
   const { site } = useSite()
-  const plans = site?.plans ?? []
+  const plans = site?.plans.length ? site.plans : defaultPlans
   const phone = site?.content.whatsappE164 ?? '919099929095'
   const name = site?.content.name ?? 'VISIONPLUS LIBRARY'
 
